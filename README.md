@@ -34,6 +34,24 @@ This README is a **full, copy‑paste walkthrough** to provision a lightweight K
   ```
 - **Python 3.10+** and `pip`
 - An **EC2 key pair name** (e.g., `k3s-cluster`) and the **private key file** on your local machine
+## Create an AWS Key Pair
+Cluster nodes need to communicate securely. This key pair will be used to authenticate when accessing EC2 instances.
+
+Run the following commands to create a new SSH key pair named `k3s-cluster` and save the private key locally:
+```bash
+cd ~/.ssh/
+aws ec2 create-key-pair --key-name k3s-cluster \
+  --output text --query 'KeyMaterial' > k3s-cluster.id_rsa
+chmod 400 k3s-cluster.id_rsa
+
+The public key is stored in AWS (and injected into each EC2 instance you launch with this key name).
+
+The private key (k3s-cluster.id_rsa) is saved locally in your ~/.ssh/ directory.
+
+The permission mode 400 ensures only your user can read the file (required by SSH).
+You will use this private key to SSH into your cluster nodes:
+`ssh -i ~/.ssh/k3s-cluster.id_rsa ubuntu@<public-ip>
+----
 
 > **Region used below:** `ap-southeast-1` (Singapore). Change as needed.
 
