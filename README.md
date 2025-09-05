@@ -38,7 +38,6 @@ This README is a **full, copy‑paste walkthrough** to provision a lightweight K
 Cluster nodes need to communicate securely. This key pair will be used to authenticate when accessing EC2 instances.
 
 Run the following commands to create a new SSH key pair named `k3s-cluster` and save the private key locally:
-```bash
 cd ~/.ssh/
 aws ec2 create-key-pair --key-name k3s-cluster \
   --output text --query 'KeyMaterial' > k3s-cluster.id_rsa
